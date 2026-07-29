@@ -1,0 +1,2 @@
+Hello, fahad! Nice to meet you.
+The sum of 178365.0 and 5876375.0 is 6054740.0.
