@@ -1,29 +1,24 @@
-# Day 2 - Python Basics: Simple Calculator Program
+# Day 3 - NumPy Fundamentals
 
 ## Concepts Covered
 
-| Concept | Where it's used |
+| Concept | Description |
 |---|---|
-| **Variables** | `num1`, `num2`, `operator`, `result` |
-| **Data Types** | `float`, `str`, checked using `type()` |
-| **Operators** | `+`, `-`, `*`, `/`, `==`, `!=` |
-| **Loops** | `while True` loop to repeat calculations |
-| **Functions** | `calculate()` function to process the math |
+| **Creating Arrays** | `np.array()`, `np.zeros()`, `np.ones()`, `np.arange()`, `np.linspace()`, `np.random.randint()` |
+| **Array Attributes** | `shape`, `ndim`, `size`, `dtype`, `itemsize` |
+| **Indexing & Slicing** | Basic indexing, 2D indexing, boolean indexing, slicing with steps |
+| **Mathematical Operations** | Element-wise arithmetic, universal functions (`np.sum`, `np.mean`, `np.std`) |
+| **Broadcasting** | Operations between arrays of different shapes |
+| **Reshaping** | `reshape()`, `ravel()`, transpose |
+| **Linear Algebra** | `np.dot()`, determinant, inverse |
 
 ## How to Run
 
-1. Open `main.py` in VS Code or any Python IDE
-2. Run the script: `python day2/main.py`
-3. Enter numbers and operators as prompted
-4. Take a screenshot of the output for submission
+```bash
+cd "day 3"
+python main.py
+```
 
 ## What I Learned (Daily Submission Form)
 
-> Today I built a simple calculator program in Python to practice core programming concepts. I learned how to:
-> - **Variables** store data like numbers and strings for later use.
-> - **Data Types** — Python automatically converts input to `float` for math, and `type()` shows what type a variable is.
-> - **Operators** like `+`, `-`, `*`, `/` perform arithmetic, while `==` and `!=` are used for comparison in conditions.
-> - **Loops** — The `while True` loop keeps the program running until the user decides to exit, showing how to control program flow.
-> - **Functions** — The `calculate()` function takes parameters and returns a result, demonstrating code reusability and modular design.
->
-> This exercise helped me understand how these fundamental concepts work together to build a functional program.
+> Today I explored NumPy, the fundamental library for numerical computing in Python. I learned how to create arrays in various ways, understand their attributes, and perform powerful indexing operations. The mathematical operations and broadcasting capabilities make NumPy incredibly efficient for data manipulation. I also practiced linear algebra operations which will be essential for machine learning implementations.
