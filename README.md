@@ -1,24 +1,29 @@
-# Day 3 - NumPy Fundamentals
+# Day 4 - Pandas: Dataset Exploration
 
 ## Concepts Covered
 
 | Concept | Description |
 |---|---|
-| **Creating Arrays** | `np.array()`, `np.zeros()`, `np.ones()`, `np.arange()`, `np.linspace()`, `np.random.randint()` |
-| **Array Attributes** | `shape`, `ndim`, `size`, `dtype`, `itemsize` |
-| **Indexing & Slicing** | Basic indexing, 2D indexing, boolean indexing, slicing with steps |
-| **Mathematical Operations** | Element-wise arithmetic, universal functions (`np.sum`, `np.mean`, `np.std`) |
-| **Broadcasting** | Operations between arrays of different shapes |
-| **Reshaping** | `reshape()`, `ravel()`, transpose |
-| **Linear Algebra** | `np.dot()`, determinant, inverse |
+| **Loading Data** | `pd.read_csv()` to load the student scores dataset |
+| **Exploring Data** | `head()`, `tail()`, `shape`, `columns`, `dtypes` |
+| **Summary Info** | `info()`, `describe()` for statistical summary |
+| **Column Operations** | Selecting columns, checking unique values |
+| **Data Quality** | `isnull().sum()`, `duplicated().sum()` for missing/duplicate detection |
+| **Row Operations** | `loc[]`, `iloc[]` for row selection and slicing |
 
 ## How to Run
 
 ```bash
-cd "day 3"
+cd "day 4"
 python main.py
 ```
 
+## Dataset
+
+The dataset `student_scores.csv` contains 30 records with two columns:
+- **Hours**: Number of hours studied
+- **Scores**: Exam score achieved
+
 ## What I Learned (Daily Submission Form)
 
-> Today I explored NumPy, the fundamental library for numerical computing in Python. I learned how to create arrays in various ways, understand their attributes, and perform powerful indexing operations. The mathematical operations and broadcasting capabilities make NumPy incredibly efficient for data manipulation. I also practiced linear algebra operations which will be essential for machine learning implementations.
+> Today I learned how to use Pandas to load and explore a dataset. I imported the CSV file, examined its shape and structure, viewed the first and last rows, and generated statistical summaries. I also learned how to check for missing values and duplicates, and practiced selecting specific rows and columns. This is the foundation for all future data analysis and machine learning work.

@@ -1,156 +1,128 @@
-# Day 3 - NumPy: Arrays, Indexing, and Mathematical Operations
-import numpy as np
+# Day 4 - Pandas: Import, Load Dataset, Explore Rows, Columns & Info
+import pandas as pd
 
 # ============================================================
-# 1. CREATING NUMPY ARRAYS
+# 1. IMPORTING PANDAS AND LOADING THE DATASET
 # ============================================================
 print("=" * 60)
-print("DAY 3: NUMPY FUNDAMENTALS")
+print("DAY 4: PANDAS - DATASET EXPLORATION")
 print("=" * 60)
 
-# From a list
-arr1 = np.array([1, 2, 3, 4, 5])
-print(f"\n1. Array from list: {arr1}")
-
-# 2D array (matrix)
-arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-print(f"\n2. 2D Array (Matrix):\n{arr2d}")
-
-# Special arrays
-zeros = np.zeros((3, 3))
-print(f"\n3. Zeros Array:\n{zeros}")
-
-ones = np.ones((2, 4))
-print(f"\n4. Ones Array:\n{ones}")
-
-range_arr = np.arange(0, 10, 2)  # start, stop, step
-print(f"\n5. Range Array (0 to 10, step 2): {range_arr}")
-
-linspace_arr = np.linspace(0, 1, 5)  # 5 evenly spaced numbers from 0 to 1
-print(f"\n6. Linspace Array (0 to 1, 5 points): {linspace_arr}")
-
-random_arr = np.random.randint(1, 100, size=(3, 4))
-print(f"\n7. Random Integer Array (3x4):\n{random_arr}")
+# Load the student score dataset
+df = pd.read_csv("student_scores.csv")
+print(f"\nDataset loaded successfully!")
 
 # ============================================================
-# 2. ARRAY ATTRIBUTES
+# 2. BASIC DATASET INFORMATION
 # ============================================================
-print("\n" + "=" * 60)
-print("ARRAY ATTRIBUTES")
-print("=" * 60)
+print("\n" + "-" * 60)
+print("BASIC DATASET INFORMATION")
+print("-" * 60)
 
-arr = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
-print(f"\nArray:\n{arr}")
-print(f"Shape: {arr.shape}")
-print(f"Dimensions (ndim): {arr.ndim}")
-print(f"Size (total elements): {arr.size}")
-print(f"Data type (dtype): {arr.dtype}")
-print(f"Item size (bytes): {arr.itemsize}")
+print(f"\nShape (rows, columns): {df.shape}")
+print(f"Number of rows: {df.shape[0]}")
+print(f"Number of columns: {df.shape[1]}")
+print(f"\nColumn names: {list(df.columns)}")
+print(f"Data types:\n{df.dtypes}")
 
 # ============================================================
-# 3. INDEXING AND SLICING
+# 3. EXPLORING FIRST AND LAST ROWS
 # ============================================================
-print("\n" + "=" * 60)
-print("INDEXING AND SLICING")
-print("=" * 60)
+print("\n" + "-" * 60)
+print("EXPLORING FIRST AND LAST ROWS")
+print("-" * 60)
 
-arr = np.array([10, 20, 30, 40, 50, 60, 70, 80])
-print(f"\nArray: {arr}")
-print(f"First element: {arr[0]}")
-print(f"Last element: {arr[-1]}")
-print(f"Elements 2 to 5: {arr[2:6]}")
-print(f"Elements from start to 4: {arr[:4]}")
-print(f"Elements from 3 to end: {arr[3:]}")
-print(f"Every other element: {arr[::2]}")
-print(f"Reversed array: {arr[::-1]}")
+print(f"\nFirst 5 rows (head):")
+print(df.head())
 
-# 2D indexing
-arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-print(f"\n2D Array:\n{arr2d}")
-print(f"Element at row 1, col 2: {arr2d[1, 2]}")
-print(f"First row: {arr2d[0]}")
-print(f"First column: {arr2d[:, 0]}")
-print(f"Submatrix (rows 0-1, cols 1-2):\n{arr2d[0:2, 1:3]}")
+print(f"\nFirst 10 rows:")
+print(df.head(10))
 
-# Boolean indexing
-arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-print(f"\nArray: {arr}")
-print(f"Elements > 5: {arr[arr > 5]}")
-print(f"Even elements: {arr[arr % 2 == 0]}")
+print(f"\nLast 5 rows (tail):")
+print(df.tail())
+
+print(f"\nLast 3 rows:")
+print(df.tail(3))
 
 # ============================================================
-# 4. MATHEMATICAL OPERATIONS
+# 4. DATASET SUMMARY INFORMATION
 # ============================================================
-print("\n" + "=" * 60)
-print("MATHEMATICAL OPERATIONS")
-print("=" * 60)
+print("\n" + "-" * 60)
+print("DATASET SUMMARY INFORMATION")
+print("-" * 60)
 
-a = np.array([1, 2, 3, 4])
-b = np.array([5, 6, 7, 8])
+print(f"\nDataset Info:")
+# Capture info output
+import io
+buffer = io.StringIO()
+df.info(buf=buffer)
+info_str = buffer.getvalue()
+print(info_str)
 
-print(f"\nArray a: {a}")
-print(f"Array b: {b}")
-print(f"Addition (a + b): {a + b}")
-print(f"Subtraction (a - b): {a - b}")
-print(f"Multiplication (a * b): {a * b}")
-print(f"Division (a / b): {a / b}")
-print(f"Power (a ** 2): {a ** 2}")
-print(f"Square root (sqrt): {np.sqrt(a)}")
-print(f"Exponential (exp): {np.exp(a)}")
-
-# Universal functions (ufuncs)
-print(f"\nSum of a: {np.sum(a)}")
-print(f"Mean of a: {np.mean(a)}")
-print(f"Standard deviation of a: {np.std(a)}")
-print(f"Min of a: {np.min(a)}")
-print(f"Max of a: {np.max(a)}")
+print(f"\nStatistical Summary (describe):")
+print(df.describe())
 
 # ============================================================
-# 5. BROADCASTING
+# 5. EXPLORING SPECIFIC COLUMNS
 # ============================================================
-print("\n" + "=" * 60)
-print("BROADCASTING")
-print("=" * 60)
+print("\n" + "-" * 60)
+print("EXPLORING SPECIFIC COLUMNS")
+print("-" * 60)
 
-arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-scalar = 10
-print(f"\nArray:\n{arr}")
-print(f"Broadcasted with scalar {scalar}:\n{arr + scalar}")
+print(f"\nHours column:")
+print(df['Hours'])
 
-# ============================================================
-# 6. RESHAPING AND TRANSPOSING
-# ============================================================
-print("\n" + "=" * 60)
-print("RESHAPING AND TRANSPOSING")
-print("=" * 60)
+print(f"\nScores column:")
+print(df['Scores'])
 
-arr = np.arange(1, 13)
-print(f"\nOriginal array: {arr}")
-print(f"Reshaped to 3x4:\n{arr.reshape(3, 4)}")
-print(f"Reshaped to 4x3:\n{arr.reshape(4, 3)}")
-print(f"Flattened (ravel): {arr.reshape(3, 4).ravel()}")
+# Check unique values
+print(f"\nUnique study hours: {df['Hours'].nunique()}")
+print(f"Unique scores: {df['Scores'].nunique()}")
 
 # ============================================================
-# 7. LINEAR ALGEBRA OPERATIONS
+# 6. CHECKING FOR MISSING VALUES & DUPLICATES
 # ============================================================
-print("\n" + "=" * 60)
-print("LINEAR ALGEBRA OPERATIONS")
-print("=" * 60)
+print("\n" + "-" * 60)
+print("DATA QUALITY CHECK")
+print("-" * 60)
 
-A = np.array([[1, 2], [3, 4]])
-B = np.array([[5, 6], [7, 8]])
-print(f"\nMatrix A:\n{A}")
-print(f"Matrix B:\n{B}")
-print(f"Matrix multiplication (dot):\n{np.dot(A, B)}")
-print(f"Matrix transpose of A:\n{A.T}")
-print(f"Determinant of A: {np.linalg.det(A):.2f}")
-print(f"Inverse of A:\n{np.linalg.inv(A)}")
+print(f"\nMissing values per column:")
+print(df.isnull().sum())
 
-# Save output to file
+print(f"\nDuplicate rows: {df.duplicated().sum()}")
+
+# ============================================================
+# 7. BASIC ROW & COLUMN OPERATIONS
+# ============================================================
+print("\n" + "-" * 60)
+print("ROW & COLUMN OPERATIONS")
+print("-" * 60)
+
+# Selecting specific rows
+print(f"\nRow at index 5:\n{df.loc[5]}")
+
+# Slicing rows
+print(f"\nRows 3 to 7:")
+print(df.iloc[3:8])
+
+# Selecting specific columns
+print(f"\nSelecting 'Hours' and 'Scores' columns:")
+print(df[['Hours', 'Scores']].head())
+
+# Adding a derived column
+df['Hours_Squared'] = df['Hours'] ** 2
+print(f"\nDataset with new column 'Hours_Squared':")
+print(df.head())
+df.drop('Hours_Squared', axis=1, inplace=True)  # Clean up
+
+# Save output info to file
 with open("output.txt", "w", encoding="utf-8") as f:
-    f.write("Day 3 - NumPy: Arrays, Indexing, and Mathematical Operations\n")
-    f.write("Successfully completed all NumPy exercises!\n")
+    f.write("Day 4 - Pandas: Dataset Loaded and Explored Successfully\n")
+    f.write(f"Dataset shape: {df.shape}\n")
+    f.write(f"Columns: {list(df.columns)}\n")
+    f.write(f"Total students: {len(df)}\n")
 
 print("\n" + "=" * 60)
-print("DAY 3 COMPLETED SUCCESSFULLY!")
+print("DAY 4 COMPLETED SUCCESSFULLY!")
+print(f"Dataset loaded with {df.shape[0]} rows and {df.shape[1]} columns")
 print("=" * 60)
