@@ -1,128 +1,139 @@
-# Day 4 - Pandas: Import, Load Dataset, Explore Rows, Columns & Info
+# Day 5 - Data Cleaning: Handle Missing Values, Remove Duplicates, Dataset Statistics
 import pandas as pd
+import numpy as np
 
 # ============================================================
-# 1. IMPORTING PANDAS AND LOADING THE DATASET
+# 1. LOAD THE DATASET AND INTRODUCE SOME IMPERFECTIONS
 # ============================================================
 print("=" * 60)
-print("DAY 4: PANDAS - DATASET EXPLORATION")
+print("DAY 5: DATA CLEANING")
 print("=" * 60)
 
-# Load the student score dataset
+# Load original dataset
 df = pd.read_csv("student_scores.csv")
-print(f"\nDataset loaded successfully!")
-
-# ============================================================
-# 2. BASIC DATASET INFORMATION
-# ============================================================
-print("\n" + "-" * 60)
-print("BASIC DATASET INFORMATION")
-print("-" * 60)
-
-print(f"\nShape (rows, columns): {df.shape}")
-print(f"Number of rows: {df.shape[0]}")
-print(f"Number of columns: {df.shape[1]}")
-print(f"\nColumn names: {list(df.columns)}")
-print(f"Data types:\n{df.dtypes}")
-
-# ============================================================
-# 3. EXPLORING FIRST AND LAST ROWS
-# ============================================================
-print("\n" + "-" * 60)
-print("EXPLORING FIRST AND LAST ROWS")
-print("-" * 60)
-
-print(f"\nFirst 5 rows (head):")
-print(df.head())
-
-print(f"\nFirst 10 rows:")
+print(f"\nOriginal dataset shape: {df.shape}")
+print(f"\nOriginal data:")
 print(df.head(10))
 
-print(f"\nLast 5 rows (tail):")
-print(df.tail())
+# Create a copy with imperfections for cleaning practice
+df_clean = df.copy()
 
-print(f"\nLast 3 rows:")
-print(df.tail(3))
+# Introduce some missing values and duplicates for demonstration
+df_dirty = df.copy()
+df_dirty.loc[2, 'Scores'] = np.nan
+df_dirty.loc[7, 'Hours'] = np.nan
+df_dirty.loc[15, 'Scores'] = np.nan
+# Add a duplicate row
+df_dirty = pd.concat([df_dirty, df_dirty.iloc[[0]]], ignore_index=True)
+# Add another duplicate
+df_dirty = pd.concat([df_dirty, df_dirty.iloc[[5]]], ignore_index=True)
 
-# ============================================================
-# 4. DATASET SUMMARY INFORMATION
-# ============================================================
-print("\n" + "-" * 60)
-print("DATASET SUMMARY INFORMATION")
-print("-" * 60)
-
-print(f"\nDataset Info:")
-# Capture info output
-import io
-buffer = io.StringIO()
-df.info(buf=buffer)
-info_str = buffer.getvalue()
-print(info_str)
-
-print(f"\nStatistical Summary (describe):")
-print(df.describe())
+print("\n" + "=" * 60)
+print("DIRTY DATASET (with missing values & duplicates)")
+print("=" * 60)
+print(f"\nDirty dataset shape: {df_dirty.shape}")
+print(df_dirty.head(15))
 
 # ============================================================
-# 5. EXPLORING SPECIFIC COLUMNS
+# 2. CHECKING FOR MISSING VALUES
 # ============================================================
 print("\n" + "-" * 60)
-print("EXPLORING SPECIFIC COLUMNS")
-print("-" * 60)
-
-print(f"\nHours column:")
-print(df['Hours'])
-
-print(f"\nScores column:")
-print(df['Scores'])
-
-# Check unique values
-print(f"\nUnique study hours: {df['Hours'].nunique()}")
-print(f"Unique scores: {df['Scores'].nunique()}")
-
-# ============================================================
-# 6. CHECKING FOR MISSING VALUES & DUPLICATES
-# ============================================================
-print("\n" + "-" * 60)
-print("DATA QUALITY CHECK")
+print("STEP 1: CHECKING FOR MISSING VALUES")
 print("-" * 60)
 
 print(f"\nMissing values per column:")
-print(df.isnull().sum())
+print(df_dirty.isnull().sum())
+print(f"\nTotal missing values: {df_dirty.isnull().sum().sum()}")
 
-print(f"\nDuplicate rows: {df.duplicated().sum()}")
+# Visual check for missing data
+print(f"\nRows with missing values:")
+print(df_dirty[df_dirty.isnull().any(axis=1)])
 
 # ============================================================
-# 7. BASIC ROW & COLUMN OPERATIONS
+# 3. HANDLING MISSING VALUES
 # ============================================================
 print("\n" + "-" * 60)
-print("ROW & COLUMN OPERATIONS")
+print("STEP 2: HANDLING MISSING VALUES")
 print("-" * 60)
 
-# Selecting specific rows
-print(f"\nRow at index 5:\n{df.loc[5]}")
+# Option A: Fill missing values with mean
+df_filled = df_dirty.copy()
+df_filled['Hours'].fillna(df_filled['Hours'].mean(), inplace=True)
+df_filled['Scores'].fillna(df_filled['Scores'].mean(), inplace=True)
+print(f"\nFilled missing values with column means:")
+print(f"Missing values after filling: {df_filled.isnull().sum().sum()}")
 
-# Slicing rows
-print(f"\nRows 3 to 7:")
-print(df.iloc[3:8])
+# Option B: Drop rows with missing values
+df_dropped = df_dirty.copy()
+df_dropped.dropna(inplace=True)
+print(f"\nDropped rows with missing values:")
+print(f"Shape before: {df_dirty.shape}, Shape after: {df_dropped.shape}")
 
-# Selecting specific columns
-print(f"\nSelecting 'Hours' and 'Scores' columns:")
-print(df[['Hours', 'Scores']].head())
+# ============================================================
+# 4. FINDING AND REMOVING DUPLICATES
+# ============================================================
+print("\n" + "-" * 60)
+print("STEP 3: FINDING AND REMOVING DUPLICATES")
+print("-" * 60)
 
-# Adding a derived column
-df['Hours_Squared'] = df['Hours'] ** 2
-print(f"\nDataset with new column 'Hours_Squared':")
-print(df.head())
-df.drop('Hours_Squared', axis=1, inplace=True)  # Clean up
+print(f"\nDuplicate rows before removal: {df_filled.duplicated().sum()}")
+print(f"\nDuplicate rows:")
+print(df_filled[df_filled.duplicated(keep=False)])
 
-# Save output info to file
+# Remove duplicates
+df_filled.drop_duplicates(inplace=True)
+print(f"\nShape after removing duplicates: {df_filled.shape}")
+print(f"Duplicate rows after removal: {df_filled.duplicated().sum()}")
+
+# ============================================================
+# 5. UNDERSTANDING DATASET STATISTICS
+# ============================================================
+print("\n" + "-" * 60)
+print("STEP 4: UNDERSTANDING DATASET STATISTICS")
+print("-" * 60)
+
+print(f"\nStatistical Summary:")
+print(df_filled.describe())
+
+# Additional statistics
+print(f"\nMedian values:")
+print(df_filled.median())
+
+print(f"\nMode values:")
+print(df_filled.mode().iloc[0])
+
+print(f"\nVariance:")
+print(f"Hours variance: {df_filled['Hours'].var():.2f}")
+print(f"Scores variance: {df_filled['Scores'].var():.2f}")
+
+print(f"\nCorrelation between Hours and Scores:")
+print(f"Correlation coefficient: {df_filled['Hours'].corr(df_filled['Scores']):.4f}")
+
+# ============================================================
+# 6. FINAL CLEAN DATASET
+# ============================================================
+print("\n" + "-" * 60)
+print("FINAL CLEAN DATASET")
+print("-" * 60)
+
+print(f"\nClean dataset shape: {df_filled.shape}")
+print(f"\nClean dataset preview:")
+print(df_filled.head(10))
+
+# Save the clean dataset
+df_filled.to_csv("student_scores_clean.csv", index=False)
+print(f"\n✅ Clean dataset saved to 'student_scores_clean.csv'")
+
+# Save output to file
 with open("output.txt", "w", encoding="utf-8") as f:
-    f.write("Day 4 - Pandas: Dataset Loaded and Explored Successfully\n")
-    f.write(f"Dataset shape: {df.shape}\n")
-    f.write(f"Columns: {list(df.columns)}\n")
-    f.write(f"Total students: {len(df)}\n")
+    f.write("Day 5 - Data Cleaning: Completed Successfully\n")
+    f.write(f"Original shape: {df_dirty.shape}\n")
+    f.write(f"Missing values handled: {df_dirty.isnull().sum().sum()}\n")
+    f.write(f"Duplicates removed: {df_dirty.duplicated().sum()}\n")
+    f.write(f"Final clean shape: {df_filled.shape}\n")
+    f.write(f"Correlation (Hours vs Scores): {df_filled['Hours'].corr(df_filled['Scores']):.4f}\n")
 
 print("\n" + "=" * 60)
-print("DAY 4 COMPLETED SUCCESSFULLY!")
-print(f"Dataset loaded with {df.shape[0]} rows and {df.shape[1]} columns")
+print("DAY 5 COMPLETED SUCCESSFULLY!")
+print("Clean dataset ready for analysis and ML!")
 print("=" * 60)
