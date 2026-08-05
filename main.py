@@ -1,4 +1,4 @@
-# Day 7 - Machine Learning Basics: Supervised Learning, Train-Test Split, Linear Regression
+# Day 8 - Build the Model: Linear Regression using Scikit-learn
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,129 +6,143 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
 # ============================================================
-# 1. UNDERSTANDING SUPERVISED LEARNING
+# 1. LOAD THE DATASET
 # ============================================================
 print("=" * 60)
-print("DAY 7: MACHINE LEARNING BASICS")
+print("DAY 8: BUILD THE LINEAR REGRESSION MODEL")
 print("=" * 60)
-
-print("""
-📚 SUPERVISED LEARNING:
-Supervised learning is a type of machine learning where the model learns
-from labeled training data. Each training example has an input (features)
-and a known output (target/label).
-
-Key Concepts:
-- Features (X): Input variables used to make predictions (e.g., Study Hours)
-- Target (y): The output variable we want to predict (e.g., Exam Scores)
-- Training: Model learns patterns from labeled data
-- Prediction: Model predicts target for new, unseen data
-
-Types of Supervised Learning:
-- Regression: Predicting continuous values (e.g., scores)
-- Classification: Predicting categories (e.g., pass/fail)
-""")
-
-# ============================================================
-# 2. LOAD THE DATASET
-# ============================================================
-print("-" * 60)
-print("LOADING THE DATASET")
-print("-" * 60)
 
 df = pd.read_csv("student_scores.csv")
 print(f"\nDataset loaded: {df.shape[0]} samples")
-print(f"Features: {list(df.columns)}")
 
-# Features (X) and Target (y)
-X = df[['Hours']]  # Feature matrix (2D)
-y = df['Scores']   # Target vector (1D)
+X = df[['Hours']]
+y = df['Scores']
 
-print(f"\nFeatures (X) shape: {X.shape}")
-print(f"Target (y) shape: {y.shape}")
-print(f"\nFeature sample (first 5):")
-print(X.head())
-print(f"\nTarget sample (first 5):")
-print(y.head())
+print(f"Features (X): Study Hours")
+print(f"Target (y): Exam Scores")
 
 # ============================================================
-# 3. TRAIN-TEST SPLIT
+# 2. SPLIT THE DATA
 # ============================================================
+print("\n" + "-" * 60)
+print("STEP 1: TRAIN-TEST SPLIT")
 print("-" * 60)
-print("TRAIN-TEST SPLIT")
-print("-" * 60)
-
-print("""
-Why Split?
-- Train Set: Used to train the model (learn patterns)
-- Test Set: Used to evaluate model performance (unseen data)
-- Typical split: 80% training, 20% testing
-""")
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-print(f"Training set size: {len(X_train)} samples ({len(X_train)/len(X)*100:.0f}%)")
-print(f"Testing set size: {len(X_test)} samples ({len(X_test)/len(X)*100:.0f}%)")
-print(f"\nTraining features (first 5):")
-print(X_train.head())
-print(f"\nTesting features (first 5):")
-print(X_test.head())
+print(f"Training samples: {len(X_train)}")
+print(f"Testing samples: {len(X_test)}")
 
 # ============================================================
-# 4. LINEAR REGRESSION CONCEPT
+# 3. CREATE AND TRAIN THE MODEL
 # ============================================================
-print("-" * 60)
-print("LINEAR REGRESSION CONCEPT")
+print("\n" + "-" * 60)
+print("STEP 2: CREATE AND TRAIN LINEAR REGRESSION MODEL")
 print("-" * 60)
 
-print("""
-📈 LINEAR REGRESSION:
+# Create the model
+model = LinearRegression()
 
-Linear Regression finds the best-fit line through the data points.
-The line is represented as:
+# Train the model (fit to training data)
+model.fit(X_train, y_train)
 
-    y = mx + b
-
-Where:
-    y = predicted score (target)
-    x = study hours (feature)
-    m = slope (coefficient) - how much score increases per hour
-    b = intercept - base score when hours = 0
-
-Goal: Find m and b that minimize the error between predicted and actual values.
-""")
+print("Model training completed!")
+print(f"\nModel Coefficients:")
+print(f"  Slope (m): {model.coef_[0]:.4f}")
+print(f"  Intercept (b): {model.intercept_:.4f}")
+print(f"\nModel Equation: Score = {model.coef_[0]:.4f} × Hours + {model.intercept_:.4f}")
+print(f"\nInterpretation: For every additional hour studied,")
+print(f"the exam score increases by approximately {model.coef_[0]:.2f} points.")
 
 # ============================================================
-# 5. VISUALIZE TRAIN-TEST SPLIT
+# 4. MAKE PREDICTIONS ON TRAINING DATA
 # ============================================================
-print("\n📊 Visualizing Train-Test Split...")
+print("\n" + "-" * 60)
+print("STEP 3: PREDICTIONS ON TRAINING DATA")
+print("-" * 60)
 
-plt.figure(figsize=(10, 6))
-plt.scatter(X_train, y_train, color='blue', s=100, alpha=0.7, 
+y_train_pred = model.predict(X_train)
+
+print(f"\nTraining Data - First 5 predictions vs actual:")
+comparison = pd.DataFrame({
+    'Actual': y_train.values[:5], 
+    'Predicted': y_train_pred[:5].round(2),
+    'Difference': (y_train.values[:5] - y_train_pred[:5]).round(2)
+})
+print(comparison.to_string(index=False))
+
+# ============================================================
+# 5. VISUALIZE THE REGRESSION LINE
+# ============================================================
+print("\n" + "-" * 60)
+print("STEP 4: VISUALIZE THE REGRESSION LINE")
+print("-" * 60)
+
+plt.figure(figsize=(12, 5))
+
+# Plot 1: Training data with regression line
+plt.subplot(1, 2, 1)
+plt.scatter(X_train, y_train, color='blue', s=80, alpha=0.7, 
             edgecolors='black', label='Training Data')
-plt.scatter(X_test, y_test, color='red', s=100, alpha=0.7, 
-            edgecolors='black', label='Testing Data')
-plt.title('Train-Test Split Visualization', fontsize=16, fontweight='bold')
-plt.xlabel('Study Hours', fontsize=12)
-plt.ylabel('Exam Scores', fontsize=12)
-plt.legend(fontsize=12)
+plt.plot(X_train, y_train_pred, color='red', linewidth=2, 
+         label='Regression Line')
+plt.title('Training Data with Regression Line', fontsize=14, fontweight='bold')
+plt.xlabel('Study Hours', fontsize=11)
+plt.ylabel('Exam Scores', fontsize=11)
+plt.legend()
 plt.grid(True, alpha=0.3)
+
+# Plot 2: Full data with regression line
+plt.subplot(1, 2, 2)
+plt.scatter(X, y, color='green', s=80, alpha=0.7, 
+            edgecolors='black', label='All Data')
+# Generate points for the regression line
+x_line = np.linspace(X.min(), X.max(), 100)
+y_line = model.predict(x_line.reshape(-1, 1))
+plt.plot(x_line, y_line, color='red', linewidth=2, label='Regression Line')
+plt.title('Linear Regression Model - All Data', fontsize=14, fontweight='bold')
+plt.xlabel('Study Hours', fontsize=11)
+plt.ylabel('Exam Scores', fontsize=11)
+plt.legend()
+plt.grid(True, alpha=0.3)
+
 plt.tight_layout()
-plt.savefig('train_test_split.png', dpi=150)
-print("✅ Saved: train_test_split.png")
+plt.savefig('linear_regression_model.png', dpi=150)
+print("✅ Saved: linear_regression_model.png")
 plt.close()
 
-# Save output
+# ============================================================
+# 6. SAVE THE MODEL PARAMETERS
+# ============================================================
+print("\n" + "-" * 60)
+print("MODEL SUMMARY")
+print("-" * 60)
+
+print(f"""
+📊 Model Summary:
+─────────────────────────────────
+Algorithm    : Linear Regression
+Training set : {len(X_train)} samples
+Testing set  : {len(X_test)} samples
+Slope (m)    : {model.coef_[0]:.4f}
+Intercept (b): {model.intercept_:.4f}
+Equation     : Score = ({model.coef_[0]:.2f}) × Hours + ({model.intercept_:.2f})
+─────────────────────────────────
+""")
+
+# Save model details
 with open("output.txt", "w", encoding="utf-8") as f:
-    f.write("Day 7 - Machine Learning Basics: Completed Successfully\n")
-    f.write(f"Total samples: {len(X)}\n")
+    f.write("Day 8 - Build the Model: Completed Successfully\n")
+    f.write(f"Model: Linear Regression\n")
+    f.write(f"Slope: {model.coef_[0]:.4f}\n")
+    f.write(f"Intercept: {model.intercept_:.4f}\n")
+    f.write(f"Equation: Score = {model.coef_[0]:.4f} * Hours + {model.intercept_:.4f}\n")
     f.write(f"Training samples: {len(X_train)}\n")
     f.write(f"Testing samples: {len(X_test)}\n")
-    f.write("Concepts covered: Supervised Learning, Train-Test Split, Linear Regression\n")
 
 print("\n" + "=" * 60)
-print("DAY 7 COMPLETED SUCCESSFULLY!")
-print("ML fundamentals understood!")
+print("DAY 8 COMPLETED SUCCESSFULLY!")
+print("Linear Regression model trained and saved!")
 print("=" * 60)

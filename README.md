@@ -1,21 +1,26 @@
-# Day 7 - Machine Learning Basics
+# Day 8 - Build the Linear Regression Model
 
 ## Concepts Covered
 
 | Concept | Description |
 |---|---|
-| **Supervised Learning** | Learning from labeled data to make predictions |
-| **Features & Target** | X (input) and y (output) variables |
-| **Train-Test Split** | 80/20 split for training and evaluation |
-| **Linear Regression** | Finding the best-fit line: y = mx + b |
+| **Model Creation** | `LinearRegression()` from scikit-learn |
+| **Model Training** | `fit()` method to learn from training data |
+| **Coefficients** | Slope (m) and intercept (b) of the regression line |
+| **Predictions** | `predict()` method to generate predictions |
+| **Visualization** | Plotting the regression line over the data |
+
+## Output Files
+
+- `linear_regression_model.png` - Visualization of the trained model
 
 ## How to Run
 
 ```bash
-cd "day 7"
+cd "day 8"
 python main.py
 ```
 
 ## What I Learned (Daily Submission Form)
 
-> Today I learned the fundamentals of machine learning. I understood supervised learning where models learn from labeled data. I practiced splitting data into training and testing sets (80/20) to properly evaluate model performance. I also learned the concept of Linear Regression, which finds the best-fit line to predict continuous values. These concepts form the foundation for building predictive models.
+> Today I built my first machine learning model! I used scikit-learn's LinearRegression to create a model that predicts exam scores based on study hours. The model training process involved fitting the model to the training data, which found the optimal slope (coefficient) and intercept. The resulting equation allows me to predict scores for any given study hours. I visualized the regression line to see how well it fits the data.
