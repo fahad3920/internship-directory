@@ -1,26 +1,26 @@
-# Day 8 - Build the Linear Regression Model
+# Day 9 - Predictions using the Model
 
 ## Concepts Covered
 
 | Concept | Description |
 |---|---|
-| **Model Creation** | `LinearRegression()` from scikit-learn |
-| **Model Training** | `fit()` method to learn from training data |
-| **Coefficients** | Slope (m) and intercept (b) of the regression line |
-| **Predictions** | `predict()` method to generate predictions |
-| **Visualization** | Plotting the regression line over the data |
+| **Test Predictions** | Using `predict()` on unseen test data |
+| **Comparison** | Comparing actual vs predicted scores |
+| **Custom Predictions** | Predicting scores for any study hours |
+| **Visualization** | Plotting actual vs predicted values |
+| **Prediction Function** | Creating a reusable function for predictions |
 
 ## Output Files
 
-- `linear_regression_model.png` - Visualization of the trained model
+- `predictions_visualization.png` - Visualization of predictions
 
 ## How to Run
 
 ```bash
-cd "day 8"
+cd "day 9"
 python main.py
 ```
 
 ## What I Learned (Daily Submission Form)
 
-> Today I built my first machine learning model! I used scikit-learn's LinearRegression to create a model that predicts exam scores based on study hours. The model training process involved fitting the model to the training data, which found the optimal slope (coefficient) and intercept. The resulting equation allows me to predict scores for any given study hours. I visualized the regression line to see how well it fits the data.
+> Today I used the trained Linear Regression model to make predictions. I predicted scores for the test data and compared them with the actual scores to see how well the model performs. I also created a prediction function that can predict scores for any study hours input. The visualizations clearly show the relationship between study hours and predicted scores.
