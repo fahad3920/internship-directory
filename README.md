@@ -1,26 +1,26 @@
-# Day 9 - Predictions using the Model
+# Day 10 - Model Evaluation
 
 ## Concepts Covered
 
 | Concept | Description |
 |---|---|
-| **Test Predictions** | Using `predict()` on unseen test data |
-| **Comparison** | Comparing actual vs predicted scores |
-| **Custom Predictions** | Predicting scores for any study hours |
-| **Visualization** | Plotting actual vs predicted values |
-| **Prediction Function** | Creating a reusable function for predictions |
+| **MAE** | Mean Absolute Error - average absolute prediction error |
+| **MSE** | Mean Squared Error - penalizes larger errors more |
+| **RMSE** | Root Mean Squared Error - error in original units |
+| **R² Score** | Coefficient of Determination - variance explained by model |
+| **Residuals** | Difference between actual and predicted values |
 
 ## Output Files
 
-- `predictions_visualization.png` - Visualization of predictions
+- `model_evaluation.png` - Evaluation visualizations
 
 ## How to Run
 
 ```bash
-cd "day 9"
+cd "day 10"
 python main.py
 ```
 
 ## What I Learned (Daily Submission Form)
 
-> Today I used the trained Linear Regression model to make predictions. I predicted scores for the test data and compared them with the actual scores to see how well the model performs. I also created a prediction function that can predict scores for any study hours input. The visualizations clearly show the relationship between study hours and predicted scores.
+> Today I evaluated the Linear Regression model using standard metrics. I calculated MAE, MSE, RMSE, and R² Score to measure model performance. The MAE tells me the average prediction error in points, the R² score tells me how much variance is explained by the model. I also created residual plots to check if the model's errors are randomly distributed. This evaluation is crucial for understanding how well the model will perform on new data.
